@@ -11,10 +11,8 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   bottomBarIcon: {
-    height: 24,
-    width: 24,
-    marginHorizontal: 50,
-    marginVertical: 14
+    paddingHorizontal: 50,
+    paddingVertical: 10
   },
   bottomBarIconActive: {
     borderBottomColor: '#2625FF',

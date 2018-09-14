@@ -9,21 +9,24 @@
     "lint": "esw src/**",
     "lint-watch": "esw -w --changed src/**",
     "lint-fix": "esw --fix",
-    "test": "jest"
+    "test": "jest",
+    "link": "react-native link"
   },
   "jest": {
     "preset": "react-native"
   },
   "dependencies": {
+    "lottie-react-native": "^2.5.6",
     "prop-types": "^15.6.2",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-dash": "^0.0.9",
     "react-native-scalable-image": "^0.4.0",
     "react-native-vector-icons": "^4.5.0",
+    "react-navigation": "^2.11.2",
+    "react-navigation-fluid-transitions": "^0.2.2",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "react-router-native": "^4.3.0"
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",

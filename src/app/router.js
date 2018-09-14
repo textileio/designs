@@ -1,6 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {Switch, Route, withRouter} from 'react-router-native'
+import {Animated} from 'react-native'
+
+import { FluidNavigator } from 'react-navigation-fluid-transitions'
+import NavigationService from '../util/navigationService'
 
 import {
   SignIn,
@@ -27,41 +29,42 @@ import {
   FeedList
 } from '../views'
 
-const App = props => {
-  const { history } = props
+const RootStack = FluidNavigator({
+  SignIn: { screen: SignIn },
+  SignUp: { screen: SignUp },
+  ForgotPassword: { screen: ForgotPassword },
+  UserOnBoarding: { screen: UserOnBoarding },
+  SyncPermissions: { screen: SyncPermissions },
+  OnBoarding: { screen: OnBoarding },
+  ThreadsList: { screen: ThreadsList },
+  ThreadsDetail: { screen: ThreadsDetail },
+  ThreadsEditName: { screen: ThreadsEditName },
+  ThreadsEditFriends: { screen: ThreadsEditFriends },
+  ThreadCreate: { screen: ThreadCreate },
+  ThreadEdit: { screen: ThreadEdit },
+  ThreadAddPhoto: { screen: ThreadAddPhoto },
+  ThreadPhotoDetail: { screen: ThreadPhotoDetail },
+  WalletList: { screen: WalletList },
+  WalletListSelected: { screen: WalletListSelected },
+  PhotoDetail: { screen: PhotoDetail },
+  PhotoDetailInfo: { screen: PhotoDetailInfo },
+  OtherUserProfile: { screen: OtherUserProfile },
+  UserProfile: { screen: UserProfile },
+  UserProfileInvite: { screen: UserProfileInvite },
+  FeedList: { screen: FeedList }
+}, {
+  duration: 1500,
+  timing: Animated.timing,
+  initialRouteName: 'ThreadsList',
+  navigationOptions: {
+    header: null
+  }
+})
 
-  return (
-    <Switch>
-      {/*<Route render={() => <OnBoarding onSubmit={() => history.push('/signUp')}/>} />}/>*/}
-      {/*<Route render={() => <SignIn/>}/>*/}
-      {/*<Route render={() => <SignUp/>}/>*/}
-      {/*<Route render={() => <ForgotPassword />}/>*/}
-      {/*<Route render={() => <UserOnBoarding />}/>*/}
-      <Route render={() => <SyncPermissions />}/>
-      {/*<Route render={() => <ThreadsList />}/>*/}
-      {/*<Route render={() => <ThreadsDetail />}/>*/}
-      {/*<Route render={() => <ThreadsEditName />}/>*/}
-      {/*<Route render={() => <ThreadsEditFriends />}/>*/}
-      {/*<Route render={() => <ThreadCreate />}/>*/}
-      {/*<Route render={() => <ThreadEdit />}/>*/}
-      {/*<Route render={() => <ThreadAddPhoto />}/>*/}
-      {/*<Route render={() => <ThreadPhotoDetail />}/>*/}
-      {/*<Route render={() => <WalletList />}/>*/}
-      {/*<Route render={() => <WalletListSelected />}/>*/}
-      {/*<Route render={() => <PhotoDetail />}/>*/}
-      {/*<Route render={() => <PhotoDetailInfo />}/>*/}
-      {/*<Route render={() => <OtherUserProfile />}/>*/}
-      {/*<Route render={() => <UserProfile />}/>*/}
-      {/*<Route render={() => <UserProfileInvite />}/>*/}
-      {/*<Route render={() => <FeedList />}/>*/}
-    </Switch>
-  )
+export default class App extends React.Component {
+  render () {
+    return <RootStack ref={navigatorRef => {
+      NavigationService.setTopLevelNavigator(navigatorRef)
+    }} />
+  }
 }
-
-App.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
-}
-
-export default withRouter(App)

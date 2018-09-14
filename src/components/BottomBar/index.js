@@ -1,44 +1,61 @@
 import React from 'react'
-import propTypes from 'prop-types'
-import { View, Image } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
+import LottieView from 'lottie-react-native'
 
+import NavigationService from '../../util/navigationService'
+
+import icons from './constants'
 import styles from './statics/styles'
 
-const BottomBar = props => {
-  const { active } = props
+class BottomBarContainer extends React.Component {
+  constructor (props) {
+    super(props)
 
-  return (
-    <View style={styles.bottomBar}>
-      <View style={active === 'threads' && styles.bottomBarIconActive}>
-        { active === 'threads' && (
-          <Image style={styles.bottomBarIcon} source={require('./statics/icon-threads-active.png')} />
-        )}
-        { active !== 'threads' && (
-          <Image style={styles.bottomBarIcon} source={require('./statics/icon-threads.png')} />
-        )}
+    this.state = {
+      active: this.props.active
+    }
+  }
+
+  componentDidUpdate (nextProps) {
+    if (nextProps !== this.props) {
+      this.setState({
+        active: nextProps.active
+      })
+    }
+  }
+
+  onPress = active => {
+    this[active].play()
+
+    this.setState({
+      active
+    })
+
+    NavigationService.navigate(icons[active].route)
+  }
+
+  render () {
+    const { active } = this.state
+
+    return (
+      <View style={styles.bottomBar}>
+        { Object.keys(icons).map((key, i) => (
+          <TouchableOpacity key={i} onPress={() => this.onPress(key)}>
+            <View style={[active === key && styles.bottomBarIconActive, styles.bottomBarIcon]}>
+              <LottieView 
+                style={{ width: 30, height: 30 }} 
+                source={icons[key].animation} 
+                loop={false} 
+                ref={animation => {
+                  this[key] = animation
+                }}
+              />  
+            </View>
+          </TouchableOpacity>
+        )) }
       </View>
-      <View style={active === 'wallet' && styles.bottomBarIconActive}>
-        { active === 'wallet' && (
-          <Image style={styles.bottomBarIcon} source={require('./statics/icon-wallet.png')} />
-        )}
-        { active !== 'wallet' && (
-          <Image style={styles.bottomBarIcon} source={require('./statics/icon-wallet.png')} />
-        )}
-      </View>
-      <View style={active === 'feed' && styles.bottomBarIconActive}>
-        { active === 'feed' && (
-          <Image style={styles.bottomBarIcon} source={require('./statics/icon-feed.png')} />
-        )}
-        { active !== 'feed' && (
-          <Image style={styles.bottomBarIcon} source={require('./statics/icon-feed.png')} />
-        )}
-      </View>
-    </View>
-  )
+    )
+  }
 }
 
-BottomBar.propTypes = {
-  active: propTypes.oneOf(['threads', 'wallet', 'feed'])
-}
-
-export default BottomBar
+export default BottomBarContainer
